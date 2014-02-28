@@ -1,4 +1,4 @@
-package com.varma.samples.camera.preview;
+package edu.buct.glasearch.agent.preview;
 
 import java.io.IOException;
 
@@ -13,7 +13,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.GestureDetector.OnGestureListener;
-import com.varma.samples.camera.callback.CameraCallback;
+import edu.buct.glasearch.agent.callback.CameraCallback;
 
 public class CameraSurface extends SurfaceView implements SurfaceHolder.Callback, OnGestureListener{	
 	private Camera camera = null;

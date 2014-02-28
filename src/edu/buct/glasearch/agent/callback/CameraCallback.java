@@ -1,4 +1,4 @@
-package com.varma.samples.camera.callback;
+package edu.buct.glasearch.agent.callback;
 
 import android.hardware.Camera;
 

@@ -1,4 +1,4 @@
-package com.varma.samples.camera.ui;
+package edu.buct.glasearch.agent.ui;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -39,10 +39,11 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
 import com.google.gson.Gson;
-import com.varma.samples.camera.R;
-import com.varma.samples.camera.callback.CameraCallback;
-import com.varma.samples.camera.entity.ImageInfo;
-import com.varma.samples.camera.preview.CameraSurface;
+
+import edu.buct.glasearch.agent.R;
+import edu.buct.glasearch.agent.callback.CameraCallback;
+import edu.buct.glasearch.agent.entity.ImageInfo;
+import edu.buct.glasearch.agent.preview.CameraSurface;
 
 public class MainActivity extends Activity implements CameraCallback{
 

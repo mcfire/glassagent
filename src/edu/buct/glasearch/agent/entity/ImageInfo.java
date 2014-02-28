@@ -1,4 +1,4 @@
-package com.varma.samples.camera.entity;
+package edu.buct.glasearch.agent.entity;
 
 
 public class ImageInfo {
