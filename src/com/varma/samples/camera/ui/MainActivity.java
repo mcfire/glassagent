@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
@@ -37,17 +38,21 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
+import com.google.gson.Gson;
 import com.varma.samples.camera.R;
 import com.varma.samples.camera.callback.CameraCallback;
+import com.varma.samples.camera.entity.ImageInfo;
 import com.varma.samples.camera.preview.CameraSurface;
 
 public class MainActivity extends Activity implements CameraCallback{
 
-	private static final String SERVICE_URL = "http://10.0.2.2:9096/glasearch/search/ms";
+	private static final String SERVICE_URL = "http://192.168.1.107:9096/glasearch/search/ms";
 	
 	private static final int RECORDER_SAMPLERATE = 8000;
 	private static final int RECORDER_CHANNELS = AudioFormat.CHANNEL_IN_MONO;
 	private static final int RECORDER_AUDIO_ENCODING = AudioFormat.ENCODING_PCM_16BIT;
+	
+	Gson gson = new Gson();
 	
 	private FrameLayout cameraholder = null;
 	private CameraSurface camerasurface = null;
@@ -138,15 +143,17 @@ public class MainActivity extends Activity implements CameraCallback{
 
 			@Override
 			protected String doInBackground(String... params) {
-				return upload(params[0], params[1]);
+				String result = search(getImageFileName(), getAudioFileName());
+	    		List<ImageInfo> jsonResult = gson.fromJson(result, List.class);
+	    		//TODO update ui
+	    		return null;
 			}
     		
     	};
-
-    	task.execute(getImageFileName(), getAudioFileName());
+    	task.execute();    	
     }
     
-    private String upload(String imageFileName, String voiceFileName) {
+    private String search(String imageFileName, String voiceFileName) {
     	String url = SERVICE_URL;
     	File imageFile = new File(imageFileName);
     	File voiceFile = new File(voiceFileName);
