@@ -2,6 +2,8 @@ package edu.buct.glasearch.agent.entity;
 
 
 public class ImageInfo {
+
+    private String id;
 	
 	private String title;
 	
@@ -82,4 +84,12 @@ public class ImageInfo {
 	public void setDistance(float distance) {
 		this.distance = distance;
 	}
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }

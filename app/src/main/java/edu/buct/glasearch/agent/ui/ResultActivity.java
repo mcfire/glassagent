@@ -1,12 +1,9 @@
 package edu.buct.glasearch.agent.ui;
 
-import java.util.List;
-import java.util.Map;
-
-import android.accounts.Account;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.Menu;
@@ -20,15 +17,22 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 
+import java.util.List;
+
 import edu.buct.glasearch.agent.R;
+import edu.buct.glasearch.agent.entity.ImageInfo;
+import edu.buct.glasearch.agent.entity.SearchResult;
 
 public class ResultActivity extends Activity {
+
+    private static final String IMAGE_URL = "http://192.168.1.109:9096/imagesearch/search/image?id=";
 	
 	private ListView resultList = null;
+    private TextView searchParam;
 	
 	private Gson gson = new Gson();
 
-    private class ResultListAdapter extends ArrayAdapter<Map> {
+    private class ResultListAdapter extends ArrayAdapter<ImageInfo> {
 
         private static final int LAYOUT_RESOURCE = R.layout.list_item_search_result;
 
@@ -38,7 +42,7 @@ public class ResultActivity extends Activity {
             TextView resultDetail;
         }
 
-        public ResultListAdapter(Context context, List<Map> listMap) {
+        public ResultListAdapter(Context context, List<ImageInfo> listMap) {
             super(context, R.layout.list_item_search_result, listMap);
         }
 
@@ -59,12 +63,13 @@ public class ResultActivity extends Activity {
             }
 
 
-            final Map result = getItem(position);
+            final ImageInfo result = getItem(position);
 
             if (result != null) {
-                holder.resultName.setText((String)result.get("title"));
-                holder.resultDetail.setText((String)result.get("location"));
-                holder.resultImage.setImageURI(null);
+                holder.resultName.setText(result.getTitle());
+                holder.resultDetail.setText(result.getLocation());
+
+                holder.resultImage.setImageURI(Uri.parse(IMAGE_URL + result.getFileName()));
             } else {
                 holder.resultName.setText("");
                 holder.resultDetail.setText("");
@@ -81,12 +86,16 @@ public class ResultActivity extends Activity {
 		setContentView(R.layout.activity_result);
 		
 		resultList = (ListView)findViewById(R.id.resultList);
+        searchParam = (TextView)findViewById(R.id.searchParam);
 
         Intent intent = getIntent();
         String result = intent.getStringExtra("result");
-        List<Map> jsonResult = gson.fromJson(result, List.class);
+        SearchResult jsonResult = gson.fromJson(result, SearchResult.class);
 
-        resultList.setAdapter(new ResultListAdapter(this, jsonResult));
+        resultList.setAdapter(new ResultListAdapter(this, jsonResult.getImageList()));
+
+        searchParam.setText("Voice text: " + jsonResult.getWords() +
+                            ". lat:" + jsonResult.getLat() + ", lng: " + jsonResult.getLng());
 	}
 
 	@Override
